@@ -14,7 +14,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.shihab.diplay"
+        applicationId = "org.opencarlink.receiver"
         minSdk = 25
         targetSdk = 37
         versionCode = 39

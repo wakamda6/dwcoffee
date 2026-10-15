@@ -22,7 +22,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "xcertplay"
+rootProject.name = "OpenCarLink"
 include(":common")
 include(":mobile")
 include(":automotive")

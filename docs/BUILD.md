@@ -1,6 +1,6 @@
-# Build DiPlay
+# Build OpenCarLink
 
-Use this procedure to build the DiPlay app for an Android head unit.
+Use this procedure to build the OpenCarLink app for an Android head unit. This procedure is adapted from DiPlay and still uses the upstream runtime-asset environment variable `DIPLAY_AUTH_ASSETS_DIR`.
 Run the commands from the repository root, where `gradlew` and `settings.gradle.kts` are located.
 
 ## Select the application
@@ -10,7 +10,7 @@ Select `mobile` to build the main DiPlay app.
 
 | Gradle module | Purpose | Debug APK |
 | --- | --- | --- |
-| `:mobile` | Main DiPlay app for Android head units | `mobile/build/outputs/apk/debug/mobile-debug.apk` |
+| `:mobile` | Main OpenCarLink app for Android head units | `mobile/build/outputs/apk/debug/mobile-debug.apk` |
 | `:maphost` | Sample application that displays a map from DiPlay | `samples/maphost/build/outputs/apk/debug/maphost-debug.apk` |
 | `:home` | Optional DiPlay Home launcher | `samples/home/build/outputs/apk/debug/home-debug.apk` |
 | `:automotive` | Separate Android Automotive application inherited from xcertplay | `automotive/build/outputs/apk/debug/automotive-debug.apk` |
@@ -35,6 +35,12 @@ Install these tools:
 
 Use the Gradle wrapper included in this repository.
 The first build needs an internet connection to download dependencies.
+
+On Windows, `UsbPermissionSetupTest` runs a POSIX shell fixture. If Git for Windows is installed outside `C:\Program Files\Git`, set `DIPLAY_TEST_SHELL` to its `sh.exe` path before running the CI command. For example, in PowerShell:
+
+```powershell
+$env:DIPLAY_TEST_SHELL = 'D:\Program Files\Git\bin\sh.exe'
+```
 
 1. Open the repository root in Android Studio.
 2. Install the Android SDK packages with **Tools → SDK Manager**.
@@ -73,8 +79,8 @@ Check that this file exists:
 mobile/build/outputs/apk/debug/mobile-debug.apk
 ```
 
-The debug application ID is `com.shihab.diplay.hudtest`.
-The release application ID is `com.shihab.diplay`.
+The debug application ID is `org.opencarlink.receiver.hudtest`.
+The release application ID is `org.opencarlink.receiver`.
 
 The source APK contains no accessory identity unless you supply runtime authentication assets.
 Standalone CarPlay needs these assets to connect to an iPhone.
