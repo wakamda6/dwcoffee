@@ -1,0 +1,7 @@
+<resources>
+    <string name="settings_gwm_hud">Latte HUD 投影（実験的機能）</string>
+    <string name="settings_gwm_hud_description">メーターとは別に、HUD に CarPlay のナビ、車線、音楽、通話を表示します。</string>
+    <string name="settings_gwm_hud_overlay">純正 HUD に重ねて表示（実験的機能）</string>
+    <string name="settings_gwm_hud_overlay_description">純正 HUD を残し、透明なレイヤーに CarPlay 情報を追加します。</string>
+    <string name="settings_gwm_hud_layout">HUD の表示内容と配置 · 開く</string>
+</resources>

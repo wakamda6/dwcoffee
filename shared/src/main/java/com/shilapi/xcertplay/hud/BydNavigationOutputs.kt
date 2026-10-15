@@ -82,6 +82,7 @@ object BydNavigationOutputs {
     }
 
     internal fun onFrame(frame: Iap2Frame) {
+        CarPlayHudFeed.onFrame(frame)
         if (frame.messageId == ClusterSongState.NOW_PLAYING_UPDATE) {
             BydClusterSong.onFrame(frame)
             return
@@ -124,6 +125,7 @@ object BydNavigationOutputs {
             current
         }
         overlayListener?.invoke(next)
+        CarPlayHudFeed.setGuidance(next)
     }
 
     private fun currentOverlay(): ClusterTurnGuidance? = synchronized(overlayLock) {
@@ -156,6 +158,7 @@ object BydNavigationOutputs {
 
     /** Best effort while alive; Android does not guarantee callbacks before force-stop. */
     fun endNow(preserveTurnOverlay: Boolean = false) {
+        CarPlayHudFeed.clear()
         standalone.clear(); hud.clear(); cluster.clear(); fceCluster.clear(); BydClusterSong.end(); BydCarPlayCall.end()
         // Only a wireless session replacement retains the card. Explicit controller close
         // and wired disconnect still clear it immediately.

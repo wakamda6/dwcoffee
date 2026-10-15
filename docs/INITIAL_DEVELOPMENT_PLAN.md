@@ -1,14 +1,18 @@
 # OpenCarLink 初始开发方案
 
-状态：项目基线已建立；车型适配尚未实现。日期：2026-10-15。
+状态：项目基线已建立；拿铁显示原型已由用户在实车验证仪表地图与 HUD 导航内容可见。日期：2026-10-15。
 
 ## 1. 目标与边界
 
-目标是把 DiPlay 改造成可扩展的 Android 车机 CarPlay 接收器，而非以比亚迪为默认前提的单车型应用。保留现有 CarPlay 连接、鉴权接口、iAP2/AirPlay、音视频解码、输入和诊断能力，新增按车机能力选择的仪表、HUD、媒体、通话及车辆数据输出。第一个适配目标是长城拿铁 DHT 2022；现有比亚迪/FCE 功能在迁移期间继续保留，待通用接口和回归测试稳定后再决定哪些特有实现可以独立维护或删除。
+目标是把 DiPlay 改造成可扩展的 Android 车机 CarPlay 接收器，而非以比亚迪为默认前提的单车型应用。保留现有 CarPlay 连接、鉴权接口、iAP2/AirPlay、音视频解码、输入和诊断能力，新增按车机能力选择的仪表、HUD、媒体、通话及车辆数据输出。第一个适配目标是长城拿铁 DHT 2022。通用运行路径不调用 BYD/FCE 服务或车机命令；迁移期间先隔离原实现并保持编译，待通用替代路径和回归检查成立后删除项目中的车型专属功能。
 
 当前基线：DiPlay `969f871433b76f6c59f3c93619f7cb5872fdd15d`（0.2.20），`develop` 为本地开发分支。`upstream` 指向原项目。项目名暂定 OpenCarLink，发布前可更名；应用 ID 已独立为 `org.opencarlink.receiver`。
 
 初始化验证（2026-10-15）：在 Windows、Temurin JDK 21、Android SDK Platform 37.0 和 NDK 28.2.13676358 下，上游 `AGENTS.md` 规定的完整 CI 命令通过：`:shared:testDebugUnitTest :common:testDebugUnitTest :home:testDebugUnitTest :mobile:lintDebug :home:lintDebug :maphost:lintDebug :mobile:assembleDebug :home:assembleDebug :maphost:assembleDebug`。本机须先设置 `DIPLAY_TEST_SHELL` 为 Git for Windows 的 `sh.exe`；未设置时 `UsbPermissionSetupTest` 的 4 个 shell 夹具测试因找不到 `sh` 而失败。生成的主调试 APK 包名经 `aapt dump badging` 核验为 `org.opencarlink.receiver.hudtest`。这些结果只证明源码构建与本地测试通过，尚未在车机和 iPhone 上验证新包。
+
+首个拿铁原型：`GwmLatteDisplays` 仅在 Presentation 列表同时存在 Display 3（1920×384）与 Display 4（800×480）时选择它们。仪表复用 DiPlay 的第二流 111，仅在流激活时打开 Presentation；HUD 使用独立开关，在 Display 4 绘制 CarPlay 导航、媒体、通话及车道信息，并提供布局设置和透明叠加原车 HUD 模式。用户实车测试报告：仪表显示高德导航页面、HUD 显示导航参数；导航未开启时 HUD 开关也可立即投屏，设置期间持续显示，透明叠加模式正常。尚缺媒体、通话、车道信息逐项验证，以及断连、原厂告警优先级和跨固件回归记录。
+
+本地装车测试构建（2026-10-15）：从工作区提供的 DiPlay 0.2.19 APK 中取出其两项运行时鉴权材料，仅存入 Git 忽略的 `.private/runtime-assets/`，用 `DIPLAY_AUTH_ASSETS_DIR` 构建 `:mobile:assembleStandaloneDebug`。核对输出 APK 内两项资源与输入逐字节哈希一致；完整 CI 同时通过。这个结果不证明该身份在当前 iPhone/车机上可用，也不授予公开分发该身份的权利。
 
 ## 2. 事实与证据
 
@@ -20,7 +24,7 @@
 | DiPlay 仪表视频 | 上游已有第二视频流 111、仪表显示配置和 Surface 解码路径；当前显示选择偏向 BYD | 拿铁适配后 iPhone 是否稳定提供第二流、画面尺寸与帧率 |
 | DiPlay 导航数据 | 上游已有 iAP2 导航引导解析和 `ClusterTurnGuidance` 数据 | 地图 App/iOS 版本对 HUD 字段的提供程度 |
 
-本仓库之外的工作区资料：`../docs/SHUIGUO_REA_FEATURE_ANALYSIS.md`、`../docs/SHUIGUO_REALCAR_REA_SUPPLEMENT.md`、`../docs/LATTE_DHT_2022_PLATFORM_PROFILE.md`。关键 REA 证据包括 `ev_a62166e8ca2d26993a08d0c654826cdb743617747313c5890d2c42b23eb6e1cf`（视频流分路）、`ev_12d94da54ee6a8fc3a39b87a08f05da25650ce0e12eacac2e6bfd7f95b0f8bca`（仪表 Presentation）、`ev_6bb3196b44e838ae96ccdd46218c9bc13b4852e47965106fff04a36877b73e84`（HUD 布局）。REA 静态结果不能代替实车显示验证。
+本仓库之外的工作区资料：`../../docs/SHUIGUO_REA_FEATURE_ANALYSIS.md`、`../../docs/SHUIGUO_REALCAR_REA_SUPPLEMENT.md`、`../../docs/LATTE_DHT_2022_PLATFORM_PROFILE.md`。关键 REA 证据包括 `ev_a62166e8ca2d26993a08d0c654826cdb743617747313c5890d2c42b23eb6e1cf`（视频流分路）、`ev_12d94da54ee6a8fc3a39b87a08f05da25650ce0e12eacac2e6bfd7f95b0f8bca`（仪表 Presentation）、`ev_6bb3196b44e838ae96ccdd46218c9bc13b4852e47965106fff04a36877b73e84`（HUD 布局）。REA 静态结果不能代替实车显示验证。
 
 ## 3. 拟定架构
 
@@ -43,7 +47,7 @@ iPhone / CarPlay
 - `GuidanceOutput`：消费现有导航数据，分别支持 HUD Presentation 或经验证的原厂数据通道。
 - `OutputCoordinator`：处理连接、断连、超时、后台、Display 移除及用户开关；输出故障时立即释放副屏窗口。
 
-先复用 [仪表窗口](../common/src/main/java/com/shilapi/xcertplay/ClusterMapPresentation.kt)、[主界面编排](../common/src/main/java/com/shilapi/xcertplay/CarPlayHostActivity.kt)、[视频配置](../shared/src/main/java/com/shilapi/xcertplay/airplay/CarPlayClusterDisplay.kt) 和 [导航数据](../shared/src/main/java/com/shilapi/xcertplay/hud/BydNavigationOutputs.kt) 中已经工作的部分。BYD 专属 Binder、广播、屏幕名称、ADB 命令和设置移入 BYD 适配路径，不能在通用启动流程里默认调用。原厂签名权限和车辆控制接口不作为第一版依赖。
+先以 [水果互联显示链路 REA](FRUIT_DISPLAY_REA.md) 确定输出行为和字段，再复用 DiPlay 的 [仪表窗口](../common/src/main/java/com/shilapi/xcertplay/ClusterMapPresentation.kt)、[主界面编排](../common/src/main/java/com/shilapi/xcertplay/CarPlayHostActivity.kt)、[视频配置](../shared/src/main/java/com/shilapi/xcertplay/airplay/CarPlayClusterDisplay.kt) 和已有导航解析能力。先从启动、流控制和显示选择中剥离 BYD 依赖，再删除专属 Binder、广播、屏幕名、ADB 命令、设置和资源。原厂签名权限和车辆控制接口不作为第一版依赖。
 
 ## 4. 分阶段交付
 
@@ -53,9 +57,15 @@ iPhone / CarPlay
 - 跑通源码 APK 构建及上游 CI 检查，记录工具链版本和结果。先不宣称 CarPlay 实车功能已回归。
 - 用现有 DiPlay 和新包并存安装，确认调试包的启动、连接、主画面与音频基线；运行身份材料始终放在仓库外。
 
-### P1：通用能力层
+### P0.5：REA 还原两条显示链路
 
-- 抽取车型能力与显示发现接口，现有 BYD/FCE 作为适配实现保留。
+- 针对已提供的水果互联 APK，追踪仪表 Display 选择、分辨率协商、第二流 111、Surface/解码器、窗口显示和释放。
+- 追踪 HUD 的导航/车道、媒体、通话事件，从原生回调到解析、状态、Presentation 渲染和退出清理；为每段记录证据、字段和未知项。
+- 形成可实现的行为规格，不以反编译文本充当原始源码。原生库内的握手细节和真实 HUD 可见性要分别用运行记录及静止实车验证。
+
+### P1：通用能力层与 BYD 剥离
+
+- 抽取车型能力与显示发现接口；通用模式不启动 BYD/FCE 输出。按依赖顺序移除 BYD/FCE 专属模块，保持 CarPlay 核心接口可编译、可回归。
 - 设置页按能力展示车型相关功能；没有仪表/HUD 时不显示无效开关。
 - 诊断输出候选 Display、选择理由、视频流 111 状态、Surface 生命周期和退出原因。
 
@@ -74,7 +84,7 @@ iPhone / CarPlay
 
 ### P4：车型扩展与发布准备
 
-- 将 BYD 特有设置、资源和服务限定到 BYD 配置；再决定保留为可选适配器或移除。
+- 清理残留 BYD/FCE 设置、资源和服务；用能力接口接入未来车型，不把拿铁的 Display ID 写成通用常量。
 - 整理第三方素材授权，替换非商业 BYD 导航图标及需重新授权的品牌素材；审查应用商标和实验性配件身份。
 - 发布 APK 时同步提供准确的对应源码、构建说明和许可证声明。
 

@@ -1,0 +1,7 @@
+<resources>
+    <string name="settings_gwm_hud">拿铁 HUD 独立投送（实验性）</string>
+    <string name="settings_gwm_hud_description">在 HUD 显示 CarPlay 导航、车道、媒体和通话信息，与仪表开关独立。</string>
+    <string name="settings_gwm_hud_overlay">叠加原车 HUD（实验性）</string>
+    <string name="settings_gwm_hud_overlay_description">保留原车 HUD 画面，并在透明图层上添加 CarPlay 信息模块。</string>
+    <string name="settings_gwm_hud_layout">配置 HUD 内容与布局 · 打开</string>
+</resources>

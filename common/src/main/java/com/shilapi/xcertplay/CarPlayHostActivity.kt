@@ -1086,6 +1086,7 @@ class CarPlayHostActivity : ComponentActivity() {
         if (!menuOpen) gestureFingerCount = AirPlayPersistence.loadSettingsGestureFingers(this)
         settingsGestureHint?.text = settingsGestureHintText()
         ensureClusterPresentation()
+        GwmHudOutput.start(this)
         AirPlayPersistence.overlaySettingsListener = { runOnUiThread { applyClusterTurnOverlay() } }
         com.shilapi.xcertplay.hud.BydNavigationOutputs.setTurnOverlayListener(clusterTurnOverlayListener)
         mainHandler.removeCallbacks(refreshTurnOverlay)
@@ -1184,6 +1185,10 @@ class CarPlayHostActivity : ComponentActivity() {
         clusterLaunchGate.reset()
         ClusterActivityOutput.stop(this)
         val theme = effectiveClusterTheme()
+        if (GwmLatteDisplays.cluster(this) != null && SCREEN_TYPE_ALT !in activeScreenStreamTypes) {
+            dismissClusterPresentation()
+            return
+        }
         if (DiLink51ClusterLayout.supported()) {
             ensureDiLink51ClusterPresentation(theme)
             return
@@ -1397,6 +1402,16 @@ class CarPlayHostActivity : ComponentActivity() {
             val size = ClusterMapPresentation.sizeOf(display)
             if (size.x > 0 && size.y > 0) {
                 clusterStreamOnDisplay = true
+                if (GwmLatteDisplays.cluster(this)?.displayId == display.displayId) {
+                    return CarPlayClusterDisplay.config(
+                        size.x, size.y, scalePercent = 100,
+                        content = AirPlayPersistence.loadClusterContent(this),
+                        baseSafeArea = CarPlayClusterDisplay.VIRTUAL_SAFE_AREA_PERCENT,
+                    ).also {
+                        MapMirrors.streamAspect = it.widthPixels.toDouble() / it.heightPixels
+                        appendLog("GWM cluster: requesting stream 111 at ${it.widthPixels}x${it.heightPixels} on display ${display.displayId}")
+                    }
+                }
                 if (DiLink51ClusterLayout.supported()) {
                     val plan = DiLink51ClusterLayout.plan(size.x, size.y, theme) ?: return null
                     return DiLink51ClusterLayout.streamConfig().also {
@@ -6132,6 +6147,9 @@ class CarPlayHostActivity : ComponentActivity() {
             if (type == SCREEN_TYPE_ALT) {
                 Log.i(ClusterMapPresentation.TAG, "cluster stream active=$active")
                 appendLog("Cluster map: stream active=$active")
+                if (GwmLatteDisplays.cluster(this) != null) {
+                    if (active) ensureClusterPresentation() else dismissClusterPresentation()
+                }
                 clusterPresentation?.setStreamActive(active)
                 ClusterActivityOutput.setStreamActive(active)
                 MapMirrors.setStreamActive(active)
