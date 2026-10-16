@@ -1,0 +1,6 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_carplay" />
+    <item android:drawable="@drawable/ic_coffee_badge"
+        android:gravity="bottom|right"
+        android:width="56dp" android:height="56dp" />
+</layer-list>

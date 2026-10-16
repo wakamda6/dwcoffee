@@ -1,7 +1,8 @@
 <resources>
-    <string name="settings_gwm_hud">Проєкція на HUD Latte (експериментально)</string>
+    <string name="settings_gwm_hud">Проєкція на HUD GWM WEY Latte (експериментально)</string>
     <string name="settings_gwm_hud_description">Показувати навігацію, смуги, музику й виклики CarPlay на HUD незалежно від панелі приладів.</string>
     <string name="settings_gwm_hud_overlay">Поверх штатного HUD (експериментально)</string>
     <string name="settings_gwm_hud_overlay_description">Зберегти штатний HUD і додати дані CarPlay на прозорому шарі.</string>
     <string name="settings_gwm_hud_layout">Налаштувати вміст і розташування HUD · Відкрити</string>
+    <string name="settings_gwm_hud_layout_title">GWM WEY Latte HUD settings</string>
 </resources>

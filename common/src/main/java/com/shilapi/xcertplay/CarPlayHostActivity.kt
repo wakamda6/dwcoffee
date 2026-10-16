@@ -15,6 +15,7 @@ import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.RectF
 import android.graphics.RenderEffect
@@ -177,7 +178,7 @@ class CarPlayHostActivity : ComponentActivity() {
         remoteMfiServer = remoteMfiServer.trim().takeIf { it.isNotEmpty() },
         remoteMfiToken = remoteMfiToken.takeIf { it.isNotEmpty() },
         identification = Iap2IdentificationConfig(
-            name = "DiPlay",
+            name = "DiPlay With Coffee",
             modelIdentifier = normalizedModel(),
             manufacturer = normalizedManufacturer(),
             serialNumber = "DIPLAY-" + DiPlayBootstrap.deviceId(airPlayIdentity).replace(":", ""),
@@ -189,7 +190,7 @@ class CarPlayHostActivity : ComponentActivity() {
             chargingConnectors = com.shilapi.xcertplay.hud.BydOutputSettings.chargingConnectors(this),
             vehicleSpeedEnabled = locationReportingEnabled && com.shilapi.xcertplay.hud.BydOutputSettings.wheelSpeedToIphoneActive(this),
         ),
-        label = "DiPlay",
+        label = "DiPlay With Coffee",
         hostName = "diplay-" + DiPlayBootstrap.deviceId(airPlayIdentity).replace(":", "").lowercase(),
         hostMac = DiPlayBootstrap.deviceId(airPlayIdentity).split(":").map { it.toInt(16).toByte() }.toByteArray(),
         wirelessBluetoothDeviceAddress = DiPlayPreferences.phoneAddress(this),
@@ -1753,7 +1754,7 @@ class CarPlayHostActivity : ComponentActivity() {
             gravity = Gravity.CENTER
         }
         val icon = ImageView(this).apply {
-            setImageResource(R.drawable.ic_carplay)
+            setImageResource(R.drawable.ic_carplay_coffee)
             contentDescription = getString(R.string.carplay)
         }
         panel.addView(icon, LinearLayout.LayoutParams(dp(88), dp(88)))
@@ -4712,7 +4713,7 @@ class CarPlayHostActivity : ComponentActivity() {
         val carBluetoothAudio = AirPlayPersistence.loadCarBluetoothAudio(this)
         if (carBluetoothAudio) logCarBluetoothAudio()
         return AirPlayConfig(
-            deviceName = "DiPlay",
+            deviceName = "DiPlay With Coffee",
             deviceId = DiPlayBootstrap.deviceId(airPlayIdentity),
             btMac = DiPlayBluetooth.localAddress(this) ?: DiPlayBootstrap.deviceId(airPlayIdentity),
             sourceVersion = "950.7.1",
@@ -4780,7 +4781,17 @@ class CarPlayHostActivity : ComponentActivity() {
 
     private fun defaultAirPlayIconBytes(): ByteArray =
         // Shown in CarPlay's app list as the "back to the car" button.
-        resources.openRawResource(R.raw.ic_car_home).use { it.readBytes() }
+        Bitmap.createBitmap(256, 256, Bitmap.Config.ARGB_8888).let { bitmap ->
+            val canvas = Canvas(bitmap)
+            val icon = requireNotNull(androidx.core.content.ContextCompat.getDrawable(this, R.drawable.ic_car_home_wey))
+            icon.setBounds(0, 0, 256, 256)
+            icon.draw(canvas)
+            java.io.ByteArrayOutputStream().use { output ->
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, output)
+                bitmap.recycle()
+                output.toByteArray()
+            }
+        }
 
     private fun updateAirPlayIconPreview() {
         val preview = iconPreviewView ?: return

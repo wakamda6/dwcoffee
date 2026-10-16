@@ -1,7 +1,8 @@
 <resources>
-    <string name="settings_gwm_hud">عرض Latte على HUD (تجريبي)</string>
+    <string name="settings_gwm_hud">عرض GWM WEY Latte على HUD (تجريبي)</string>
     <string name="settings_gwm_hud_description">عرض الملاحة والمسارات والموسيقى والمكالمات من CarPlay على HUD بشكل مستقل عن لوحة العدادات.</string>
     <string name="settings_gwm_hud_overlay">عرض فوق HUD الأصلي (تجريبي)</string>
     <string name="settings_gwm_hud_overlay_description">الإبقاء على شاشة HUD الأصلية وإضافة معلومات CarPlay فوقها بطبقة شفافة.</string>
     <string name="settings_gwm_hud_layout">تخصيص محتوى HUD وتخطيطه · فتح</string>
+    <string name="settings_gwm_hud_layout_title">GWM WEY Latte HUD settings</string>
 </resources>

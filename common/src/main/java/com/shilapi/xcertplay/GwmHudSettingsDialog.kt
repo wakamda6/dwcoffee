@@ -15,6 +15,7 @@ import android.widget.ScrollView
 import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.TextView
+import com.shilapi.xcertplay.host.R
 
 /** Center-screen editor for the nine independent HUD layout groups found through REA. */
 internal object GwmHudSettingsDialog {
@@ -96,7 +97,7 @@ internal object GwmHudSettingsDialog {
             override fun onNothingSelected(parent: android.widget.AdapterView<*>?) = Unit
         }
         render(parts.first())
-        AlertDialog.Builder(context).setTitle("拿铁 HUD 设置")
+        AlertDialog.Builder(context).setTitle(R.string.settings_gwm_hud_layout_title)
             .setView(ScrollView(context).apply { addView(root) })
             .setPositiveButton("完成", null).show()
     }

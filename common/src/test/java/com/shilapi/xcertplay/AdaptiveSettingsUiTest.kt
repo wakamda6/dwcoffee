@@ -806,6 +806,33 @@ class AdaptiveSettingsUiTest {
         }
     }
 
+    @Test @Config(sdk = [29], qualifiers = "zh-rCN-w320dp-h600dp")
+    fun setupCarScreenshotCompactLargeFont() = captureSetupCar("compact-zh", 1.3f)
+
+    @Test @Config(sdk = [29], qualifiers = "zh-rCN-w1000dp-h700dp")
+    fun setupCarScreenshotExpandedLargeFont() = captureSetupCar("expanded-zh", 1.3f)
+
+    private fun captureSetupCar(name: String, fontScale: Float) {
+        RuntimeEnvironment.setFontScale(fontScale)
+        val screen = Robolectric.buildActivity(DiPlayActivity::class.java,
+            Intent(context, DiPlayActivity::class.java).putExtra("page", "setup")).setup().get()
+        activity = screen
+        layoutRoot(screen)
+        assertTrue(texts(screen).any { it.text == screen.getString(R.string.setup_car_other_models) })
+        val root = screen.findViewById<ViewGroup>(android.R.id.content).getChildAt(0)
+        val bitmap = Bitmap.createBitmap(root.width, root.height, Bitmap.Config.ARGB_8888)
+        try {
+            root.draw(Canvas(bitmap))
+            val output = Paths.get("build/reports/setup-car-ui/$name.png")
+            Files.createDirectories(output.parent)
+            Files.newOutputStream(output).use { stream ->
+                assertTrue(bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream))
+            }
+        } finally {
+            bitmap.recycle()
+        }
+    }
+
     @Test fun usbChargingIsSavedForTheNextWiredConnectionWithoutDroppingTheSession() {
         AirPlayPersistence.saveWirelessEnabled(context, false)
         val screen = openSettings()

@@ -769,7 +769,7 @@ class DiPlayActivity : ComponentActivity(), AppAppearanceOwner {
         gravity = Gravity.CENTER_VERTICAL
         val logoSize = dp(if (compact) 30 else 36)
         addView(ImageView(this@DiPlayActivity).apply {
-            setImageResource(R.drawable.ic_carplay)
+            setImageResource(R.drawable.ic_carplay_coffee)
             contentDescription = getString(R.string.carplay)
         }, LinearLayout.LayoutParams(logoSize, logoSize))
         addView(label(getString(R.string.diplay), if (compact) 20 else 26, TEXT, true,
@@ -960,7 +960,7 @@ class DiPlayActivity : ComponentActivity(), AppAppearanceOwner {
         card.addView(disconnectButton, matchButton(if (compact) CONTROL_GAP_DP else 16, if (compact) 46 else 56))
         val right = column().apply { gravity = Gravity.CENTER_HORIZONTAL }
         val logo = ImageView(this).apply {
-            setImageResource(R.drawable.ic_carplay)
+            setImageResource(R.drawable.ic_carplay_coffee)
             contentDescription = getString(R.string.carplay_icon)
             scaleType = ImageView.ScaleType.FIT_CENTER
         }
@@ -2442,6 +2442,9 @@ class DiPlayActivity : ComponentActivity(), AppAppearanceOwner {
         settingsPageTitle(content, getString(R.string.about_diplay), getString(R.string.carplay_at_home_in_your_car))
         section(content, getString(R.string.about_public_preview_prefix, version())) { card ->
             card.addView(label(getString(R.string.an_independent_carplay_receiver_for_android_head_units_wir), 17, TEXT))
+            card.addView(label(getString(R.string.about_coffee_adaptation), 14, MUTED).apply {
+                setPadding(0, dp(10), 0, 0)
+            })
             card.addView(updateRow())
             toggle(card, getString(R.string.settings_background_update_checks),
                 getString(R.string.settings_background_update_checks_description),
@@ -3097,6 +3100,9 @@ class DiPlayActivity : ComponentActivity(), AppAppearanceOwner {
         })
         val card = card()
         card.addView(label(getString(R.string.setup_car_choose), 22, TEXT, true))
+        card.addView(label(getString(R.string.setup_car_other_models), 14, MUTED).apply {
+            setPadding(0, dp(8), 0, 0)
+        })
         val wide = resources.configuration.screenWidthDp >= 850
         val choices = if (wide) row() else column()
         DiLinkGeneration.entries.forEachIndexed { index, generation ->
@@ -3842,7 +3848,7 @@ class DiPlayActivity : ComponentActivity(), AppAppearanceOwner {
         })
         body.addView(button(getString(R.string.copy_command), false) {
             getSystemService(android.content.ClipboardManager::class.java).setPrimaryClip(
-                android.content.ClipData.newPlainText("DiPlay ADB Command", adbCmd)
+                android.content.ClipData.newPlainText("DiPlay With Coffee ADB Command", adbCmd)
             )
             toast(getString(R.string.copied_to_the_car_clipboard_run_the_command_on_your_comput))
         }, matchButton(8, 50))
@@ -5193,7 +5199,7 @@ class DiPlayActivity : ComponentActivity(), AppAppearanceOwner {
         val custom = AirPlayPersistence.loadCustomAirPlayIconFile(this)?.let { BitmapFactory.decodeFile(it.absolutePath) }
         val preview = row().apply { gravity = Gravity.CENTER_VERTICAL }
         preview.addView(ImageView(this).apply {
-            setImageBitmap(custom ?: BitmapFactory.decodeResource(resources, R.raw.ic_car_home))
+            if (custom != null) setImageBitmap(custom) else setImageResource(R.drawable.ic_car_home_wey)
             scaleType = ImageView.ScaleType.CENTER_CROP
             background = rounded(SURFACE, BORDER)
             clipToOutline = true
