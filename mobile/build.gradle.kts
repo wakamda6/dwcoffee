@@ -14,7 +14,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "org.opencarlink.receiver"
+        applicationId = "com.wakamda.dwcoffee"
         minSdk = 25
         targetSdk = 37
         versionCode = 39

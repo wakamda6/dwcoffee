@@ -1,6 +1,6 @@
-# Build OpenCarLink
+# Build dwccoffee
 
-Use this procedure to build the OpenCarLink app for an Android head unit. This procedure is adapted from DiPlay and still uses the upstream runtime-asset environment variable `DIPLAY_AUTH_ASSETS_DIR`.
+Use this procedure to build the dwccoffee app for an Android head unit. This procedure is adapted from DiPlay and still uses the upstream runtime-asset environment variable `DIPLAY_AUTH_ASSETS_DIR`.
 Run the commands from the repository root, where `gradlew` and `settings.gradle.kts` are located.
 
 ## Select the application
@@ -10,7 +10,7 @@ Select `mobile` to build the main DiPlay app.
 
 | Gradle module | Purpose | Debug APK |
 | --- | --- | --- |
-| `:mobile` | Main OpenCarLink app for Android head units | `mobile/build/outputs/apk/debug/mobile-debug.apk` |
+| `:mobile` | Main dwccoffee app for Android head units | `mobile/build/outputs/apk/debug/mobile-debug.apk` |
 | `:maphost` | Sample application that displays a map from DiPlay | `samples/maphost/build/outputs/apk/debug/maphost-debug.apk` |
 | `:home` | Optional DiPlay Home launcher | `samples/home/build/outputs/apk/debug/home-debug.apk` |
 | `:automotive` | Separate Android Automotive application inherited from xcertplay | `automotive/build/outputs/apk/debug/automotive-debug.apk` |
@@ -79,8 +79,8 @@ Check that this file exists:
 mobile/build/outputs/apk/debug/mobile-debug.apk
 ```
 
-The debug application ID is `org.opencarlink.receiver.hudtest`.
-The release application ID is `org.opencarlink.receiver`.
+The debug application ID is `com.wakamda.dwcoffee.hudtest`.
+The release application ID is `com.wakamda.dwcoffee`.
 
 The source APK contains no accessory identity unless you supply runtime authentication assets.
 Standalone CarPlay needs these assets to connect to an iPhone.

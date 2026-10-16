@@ -1,18 +1,18 @@
-# OpenCarLink
+# dwccoffee
 
-OpenCarLink 是基于 [DiPlay](https://github.com/shihabal3amri/DiPlay) 的通用 Android 车机 CarPlay 接收器开发项目。当前处于项目初始化阶段：保留 DiPlay 0.2.20 的接收、连接、音视频和现有车型代码，以长城拿铁 DHT 2022 为第一个新增适配目标。**目前尚未实现或验证拿铁仪表地图及 HUD 输出。**
+dwccoffee（DiPlay With Coffee）基于 [DiPlay](https://github.com/shihabal3amri/DiPlay)，保留原有 CarPlay 核心功能，补充 GWM WEY 拿铁车型支持和说明。拿铁实车已验证仪表地图及 HUD 导航内容可见；媒体、通话、车道信息与跨固件行为仍需逐项验证。
 
 ## 当前基线
 
 - 上游：DiPlay，起点提交 `969f871433b76f6c59f3c93619f7cb5872fdd15d`。
 - 主应用模块：`:mobile`；库模块：`:common`、`:shared`。
-- 应用 ID：`org.opencarlink.receiver`；调试版：`org.opencarlink.receiver.hudtest`。两者与原 DiPlay 可并存。
+- 应用 ID：`com.wakamda.dwcoffee`；调试版：`com.wakamda.dwcoffee.hudtest`。两者与原 DiPlay 可并存。
 - 本地开发分支：`develop`；`upstream` 指向 DiPlay 原仓库。
-- 当前更改只涉及项目身份、应用间 action 命名空间和初始文档；尚未改动 CarPlay 协议核心。
+- 车型补充、品牌文案和图标位于独立开发分支；CarPlay 协议核心沿用上游实现。
 
 ## 从哪里开始
 
-完整目标、证据、架构、阶段任务和验收标准见 [初始开发方案](docs/INITIAL_DEVELOPMENT_PLAN.md)。上游原版说明保存在 [DiPlay README](docs/DIPLAY_UPSTREAM_README.md)，现有上游功能和说明仍可作为代码参考，但不能当作 OpenCarLink 的已验证能力。
+完整目标、证据、架构、阶段任务和验收标准见 [初始开发方案](docs/INITIAL_DEVELOPMENT_PLAN.md)。上游原版说明保存在 [DiPlay README](docs/DIPLAY_UPSTREAM_README.md)。[上游同步流程](docs/UPSTREAM_SYNC.md)会定期生成待审查的合并 PR，通过完整源码检查后仍须人工合并。
 
 构建主 APK：`gradlew.bat :mobile:assembleDebug`。源码构建默认不含 CarPlay 运行身份材料，因而 APK 能安装并不代表能与 iPhone 完成 CarPlay 连接。构建环境和本地车测方式见 [构建说明](docs/BUILD.md)。
 

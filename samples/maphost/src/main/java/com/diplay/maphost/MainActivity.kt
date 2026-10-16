@@ -182,7 +182,7 @@ class MainActivity : Activity() {
 
     private companion object {
         // DiPlay's protocol (MapEmbedService); copy these into your launcher.
-        const val ACTION = "org.opencarlink.receiver.action.EMBED_MAP"
+        const val ACTION = "com.wakamda.dwcoffee.action.EMBED_MAP"
         const val MSG_ATTACH = 1
         const val MSG_RESIZE = 2
         const val MSG_DETACH = 3

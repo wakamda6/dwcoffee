@@ -140,7 +140,7 @@
             android:exported="true"
             tools:ignore="ExportedService">
             <intent-filter>
-                <action android:name="org.opencarlink.receiver.action.EMBED_MAP" />
+                <action android:name="com.wakamda.dwcoffee.action.EMBED_MAP" />
             </intent-filter>
         </service>
 

@@ -1,4 +1,4 @@
-# 從原始碼建置 DiPlay
+# 從原始碼建置 dwccoffee
 
 [繁體中文首頁](../README.zh-TW.md) · [英文建置指南](BUILD.md) · [Android CI](../.github/workflows/android.yml)
 
@@ -8,7 +8,7 @@
 
 | Gradle 模組 | 用途 | Debug APK |
 | --- | --- | --- |
-| `:mobile` | 車機使用的主要 DiPlay 應用程式 | `mobile/build/outputs/apk/debug/mobile-debug.apk` |
+| `:mobile` | 車機使用的主要 dwccoffee 應用程式 | `mobile/build/outputs/apk/debug/mobile-debug.apk` |
 | `:home` | 選用的 DiPlay Home 啟動器 | `samples/home/build/outputs/apk/debug/home-debug.apk` |
 | `:maphost` | 接收 DiPlay 地圖的範例應用程式 | `samples/maphost/build/outputs/apk/debug/maphost-debug.apk` |
 | `:automotive` | 從 xcertplay 繼承的獨立 Android Automotive 應用程式 | `automotive/build/outputs/apk/debug/automotive-debug.apk` |
@@ -50,7 +50,7 @@ sdk.dir=C:/Users/YOUR_NAME/AppData/Local/Android/Sdk
 ./gradlew :mobile:assembleDebug
 ```
 
-一般原始碼 APK 不包含配件認證身分，除非自行提供執行時認證素材；因此它可用於介面驗證，但獨立 CarPlay 連線需要下節素材。Debug 套件名稱為 `com.shihab.diplay.hudtest`，正式版為 `com.shihab.diplay`。
+一般原始碼 APK 不包含配件認證身分，除非自行提供執行時認證素材；因此它可用於介面驗證，但獨立 CarPlay 連線需要下節素材。Debug 套件名稱為 `com.wakamda.dwcoffee.hudtest`，正式版為 `com.wakamda.dwcoffee`。
 
 ## Android Studio 執行
 

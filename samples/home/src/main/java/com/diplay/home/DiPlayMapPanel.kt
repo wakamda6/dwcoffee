@@ -166,7 +166,7 @@ class DiPlayMapPanel(context: Context) : FrameLayout(context) {
     private companion object {
         const val CARPLAY_ACTIVITY = "com.shilapi.xcertplay.CarPlayHostActivity"
         // DiPlay's map protocol.
-        const val ACTION = "org.opencarlink.receiver.action.EMBED_MAP"
+        const val ACTION = "com.wakamda.dwcoffee.action.EMBED_MAP"
         const val MSG_ATTACH = 1
         const val MSG_RESIZE = 2
         const val MSG_DETACH = 3

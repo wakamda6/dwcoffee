@@ -1,4 +1,4 @@
-# OpenCarLink 初始开发方案
+# dwccoffee 初始开发方案
 
 状态：项目基线已建立；拿铁显示原型已由用户在实车验证仪表地图与 HUD 导航内容可见。日期：2026-10-15。
 
@@ -6,9 +6,9 @@
 
 目标是把 DiPlay 改造成可扩展的 Android 车机 CarPlay 接收器，而非以比亚迪为默认前提的单车型应用。保留现有 CarPlay 连接、鉴权接口、iAP2/AirPlay、音视频解码、输入和诊断能力，新增按车机能力选择的仪表、HUD、媒体、通话及车辆数据输出。第一个适配目标是长城拿铁 DHT 2022。通用运行路径不调用 BYD/FCE 服务或车机命令；迁移期间先隔离原实现并保持编译，待通用替代路径和回归检查成立后删除项目中的车型专属功能。
 
-当前基线：DiPlay `969f871433b76f6c59f3c93619f7cb5872fdd15d`（0.2.20），`develop` 为本地开发分支。`upstream` 指向原项目。项目名暂定 OpenCarLink，发布前可更名；应用 ID 已独立为 `org.opencarlink.receiver`。
+当前基线：DiPlay `969f871433b76f6c59f3c93619f7cb5872fdd15d`（0.2.20），`develop` 为本地开发分支。`upstream` 指向原项目。项目名为 dwccoffee，应用 ID 为 `com.wakamda.dwcoffee`。
 
-初始化验证（2026-10-15）：在 Windows、Temurin JDK 21、Android SDK Platform 37.0 和 NDK 28.2.13676358 下，上游 `AGENTS.md` 规定的完整 CI 命令通过：`:shared:testDebugUnitTest :common:testDebugUnitTest :home:testDebugUnitTest :mobile:lintDebug :home:lintDebug :maphost:lintDebug :mobile:assembleDebug :home:assembleDebug :maphost:assembleDebug`。本机须先设置 `DIPLAY_TEST_SHELL` 为 Git for Windows 的 `sh.exe`；未设置时 `UsbPermissionSetupTest` 的 4 个 shell 夹具测试因找不到 `sh` 而失败。生成的主调试 APK 包名经 `aapt dump badging` 核验为 `org.opencarlink.receiver.hudtest`。这些结果只证明源码构建与本地测试通过，尚未在车机和 iPhone 上验证新包。
+初始化验证（2026-10-15）：在 Windows、Temurin JDK 21、Android SDK Platform 37.0 和 NDK 28.2.13676358 下，上游 `AGENTS.md` 规定的完整 CI 命令通过：`:shared:testDebugUnitTest :common:testDebugUnitTest :home:testDebugUnitTest :mobile:lintDebug :home:lintDebug :maphost:lintDebug :mobile:assembleDebug :home:assembleDebug :maphost:assembleDebug`。本机须先设置 `DIPLAY_TEST_SHELL` 为 Git for Windows 的 `sh.exe`；未设置时 `UsbPermissionSetupTest` 的 4 个 shell 夹具测试因找不到 `sh` 而失败。当时生成的主调试 APK 包名经 `aapt dump badging` 核验为 `org.opencarlink.receiver.hudtest`。这些结果只证明当时的源码构建与本地测试通过，尚未在车机和 iPhone 上验证新包。
 
 首个拿铁原型：`GwmLatteDisplays` 仅在 Presentation 列表同时存在 Display 3（1920×384）与 Display 4（800×480）时选择它们。仪表复用 DiPlay 的第二流 111，仅在流激活时打开 Presentation；HUD 使用独立开关，在 Display 4 绘制 CarPlay 导航、媒体、通话及车道信息，并提供布局设置和透明叠加原车 HUD 模式。用户实车测试报告：仪表显示高德导航页面、HUD 显示导航参数；导航未开启时 HUD 开关也可立即投屏，设置期间持续显示，透明叠加模式正常。尚缺媒体、通话、车道信息逐项验证，以及断连、原厂告警优先级和跨固件回归记录。
 

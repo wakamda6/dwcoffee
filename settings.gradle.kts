@@ -22,7 +22,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "OpenCarLink"
+rootProject.name = "dwccoffee"
 include(":common")
 include(":mobile")
 include(":automotive")

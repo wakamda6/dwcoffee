@@ -61,7 +61,7 @@ class DiPlaySessionService : Service() {
         stopSelf()
     }
     companion object {
-        const val ACTION_STOP = "org.opencarlink.receiver.DISCONNECT"
+        const val ACTION_STOP = "com.wakamda.dwcoffee.DISCONNECT"
         private const val CHANNEL = "diplay_connection"
     }
 }

@@ -49,7 +49,7 @@ class PhoneBluetoothReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        const val EXTRA_AUTO_CONNECT = "org.opencarlink.receiver.AUTO_CONNECT_SELECTED_PHONE"
+        const val EXTRA_AUTO_CONNECT = "com.wakamda.dwcoffee.AUTO_CONNECT_SELECTED_PHONE"
     }
 }
 
