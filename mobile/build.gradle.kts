@@ -3,9 +3,12 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-// Optional local-only input. CI and ordinary source builds contain no accessory identity.
+// Explicit input can also make a standalone debug APK; ordinary debug/CI builds stay identity-free.
 val localAuthenticationAssets = providers.environmentVariable("DIPLAY_AUTH_ASSETS_DIR")
     .orNull?.let { file(it).canonicalFile }
+// A local release build uses the private copy unless another directory was selected explicitly.
+val releaseAuthenticationAssets = localAuthenticationAssets
+    ?: rootProject.file(".private/runtime-assets").canonicalFile
 
 android {
     namespace = "com.shilapi.xcertplay"
@@ -24,6 +27,7 @@ android {
 
 
     localAuthenticationAssets?.let { sourceSets.getByName("main").assets.srcDir(it) }
+        ?: sourceSets.getByName("release").assets.srcDir(releaseAuthenticationAssets)
 
     signingConfigs {
         create("release") {
@@ -73,7 +77,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
 }
 
-// No implicit import. Only the two explicitly selected local runtime assets are allowed.
+// Only the two files from the selected local directory are allowed in APK assets.
 val credentialAssets = files(android.sourceSets.flatMap { source ->
     source.assets.directories.map { directory ->
         fileTree(directory) {
@@ -86,17 +90,33 @@ val rejectBundledCredentials by tasks.registering {
     group = "verification"
     description = "Reject unexpected credential files in APK assets."
     val filesToCheck = credentialAssets
-    val allowed = localAuthenticationAssets?.let { dir ->
-        listOf("identity.pk8", "certificate.p7b").map { dir.resolve("offline-mfi/$it").canonicalFile }.toSet()
-    } ?: emptySet()
+    val allowed = listOf("identity.pk8", "certificate.p7b").map {
+        releaseAuthenticationAssets.resolve("offline-mfi/$it").canonicalFile
+    }.toSet()
     inputs.files(filesToCheck)
     doLast {
-        check(allowed.all { it.isFile }) { "Explicit local authentication assets are incomplete" }
         val unexpected = filesToCheck.files.filter { it.canonicalFile !in allowed }
         check(unexpected.isEmpty()) { "Unexpected credential files in APK assets" }
     }
 }
 tasks.named("preBuild") { dependsOn(rejectBundledCredentials) }
+
+val verifyReleaseAuthentication by tasks.registering {
+    group = "verification"
+    description = "Require the local accessory identity before any release build."
+    val directory = releaseAuthenticationAssets
+    doLast {
+        check(listOf("identity.pk8", "certificate.p7b").all {
+            directory.resolve("offline-mfi/$it").let { file -> file.isFile && file.length() > 0 }
+        }) {
+            "Release CarPlay authentication files are missing or empty in $directory; " +
+                "set DIPLAY_AUTH_ASSETS_DIR or provide .private/runtime-assets/offline-mfi/."
+        }
+    }
+}
+tasks.matching { it.name == "preReleaseBuild" }.configureEach {
+    dependsOn(verifyReleaseAuthentication)
+}
 
 // Car-test packages must be standalone. Keep ordinary source/CI builds identity-free.
 val verifyStandaloneAuthentication by tasks.registering {

@@ -104,11 +104,11 @@ DIPLAY_AUTH_ASSETS_DIR=/absolute/path/to/runtime-assets ./gradlew :mobile:assemb
 
 ## 正式版建置
 
-除認證素材外，在本機設定以下環境變數：
+正式版預設從 `.private/runtime-assets/offline-mfi/` 加入認證素材；任一檔案缺少或為空時，建置會失敗。素材在其他目錄時才設定 `DIPLAY_AUTH_ASSETS_DIR`。在本機設定以下簽章環境變數：
 
 | 變數 | 內容 |
 | --- | --- |
-| `DIPLAY_AUTH_ASSETS_DIR` | 認證素材目錄的絕對路徑 |
+| `DIPLAY_AUTH_ASSETS_DIR` | 可選：其他認證素材目錄的絕對路徑 |
 | `ANDROID_KEYSTORE_PATH` | Android 簽章 keystore 路徑 |
 | `ANDROID_KEYSTORE_PASSWORD` | keystore 密碼 |
 | `ANDROID_KEY_ALIAS` | 簽章金鑰別名 |

@@ -147,12 +147,14 @@ Different signing keys cannot update the same installed application.
 
 ## Build a release APK
 
-Prepare the runtime assets as described in the car-test procedure.
-Set these environment variables locally:
+Keep the runtime assets under `.private/runtime-assets/offline-mfi/` as described above.
+Release builds include these files automatically and fail if either is missing or empty.
+Set `DIPLAY_AUTH_ASSETS_DIR` only if the assets live elsewhere.
+Set the signing environment variables locally:
 
 | Variable | Value |
 | --- | --- |
-| `DIPLAY_AUTH_ASSETS_DIR` | Absolute path to the runtime assets directory |
+| `DIPLAY_AUTH_ASSETS_DIR` | Optional override for the runtime assets directory |
 | `ANDROID_KEYSTORE_PATH` | Path to your Android signing keystore |
 | `ANDROID_KEYSTORE_PASSWORD` | Keystore password |
 | `ANDROID_KEY_ALIAS` | Signing key alias |
