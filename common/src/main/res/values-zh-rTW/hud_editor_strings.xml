@@ -1,0 +1,19 @@
+<resources>
+    <string name="hud_editor_profile">方案 %1$d</string>
+    <string name="hud_editor_hint">畫布僅供排列預覽，不代表覆蓋整個 HUD。點選圖示後拖動；下方可調整大小、顯示及顏色。</string>
+    <string name="hud_editor_selected">目前：%1$s · 大小 %2$d%%</string>
+    <string name="hud_editor_shrink">縮小 −</string>
+    <string name="hud_editor_enlarge">放大 +</string>
+    <string name="hud_editor_visible">顯示所選項目</string>
+    <string name="hud_editor_width">內容寬度：%1$d%%</string>
+    <string name="hud_editor_color">顏色</string>
+    <string name="hud_editor_select_color">選擇顏色</string>
+    <string name="hud_editor_animation">媒體文字切換動畫</string>
+    <string name="hud_editor_save">儲存並使用此方案</string>
+    <string name="hud_editor_current_road">前方道路</string>
+    <string name="hud_editor_turn_sample">1.2 km 後左轉</string>
+    <string name="hud_editor_route_sample">剩餘 12.1 km · 18:04</string>
+    <string name="hud_editor_call_sample">來電 10086</string>
+    <string name="hud_editor_media_sample">歌曲標題</string>
+    <string name="hud_editor_artist_sample">歌手名稱</string>
+</resources>

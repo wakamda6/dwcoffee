@@ -1,0 +1,19 @@
+<resources>
+    <string name="hud_editor_profile">Layout %1$d</string>
+    <string name="hud_editor_hint">The canvas previews the arrangement; it does not cover the entire physical HUD. Tap and drag an item, then adjust its size, visibility and color below.</string>
+    <string name="hud_editor_selected">Selected: %1$s · size %2$d%%</string>
+    <string name="hud_editor_shrink">Smaller −</string>
+    <string name="hud_editor_enlarge">Larger +</string>
+    <string name="hud_editor_visible">Show selected item</string>
+    <string name="hud_editor_width">Content width: %1$d%%</string>
+    <string name="hud_editor_color">Color</string>
+    <string name="hud_editor_select_color">Select color</string>
+    <string name="hud_editor_animation">Animate media text changes</string>
+    <string name="hud_editor_save">Save and use this layout</string>
+    <string name="hud_editor_current_road">Next road</string>
+    <string name="hud_editor_turn_sample">Turn left in 1.2 km</string>
+    <string name="hud_editor_route_sample">12.1 km left · 18:04</string>
+    <string name="hud_editor_call_sample">Call 10086</string>
+    <string name="hud_editor_media_sample">Song title</string>
+    <string name="hud_editor_artist_sample">Artist</string>
+</resources>
