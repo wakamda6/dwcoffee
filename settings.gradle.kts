@@ -22,7 +22,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "dwccoffee"
+rootProject.name = "dwcoffee"
 include(":common")
 include(":mobile")
 include(":automotive")

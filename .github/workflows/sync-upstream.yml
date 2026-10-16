@@ -95,7 +95,7 @@ jobs:
           git push --force-with-lease origin HEAD:refs/heads/sync/diplay-upstream
           if [ -z "$(gh pr list --base develop --head sync/diplay-upstream --state open --json number --jq '.[0].number // empty')" ]; then
             cat > "$RUNNER_TEMP/upstream-sync-pr.md" <<'EOF'
-          Merges DiPlay upstream into dwccoffee while preserving the Coffee commits.
+          Merges DiPlay upstream into dwcoffee while preserving the Coffee commits.
 
           The full Android source checks passed in the upstream sync workflow. Review the diff and test BYD and GWM WEY behavior before merging. This PR does not build or publish a release APK.
           EOF

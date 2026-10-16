@@ -6,7 +6,7 @@
 
 分析对象是工作区 `../../analysis/shuiguo/runtime/shuiguo-runtime.apk`，由用户提供的水果互联 1.204 APK 与运行时恢复的业务 DEX 组成，仅作离线分析。原 APK 和载体哈希、提取限制见 `../../docs/SHUIGUO_REA_FEATURE_ANALYSIS.md`。本记录中的类名是混淆后名称，REA/JADX 输出是反编译推断，不是项目源码，也不能保证还原原生库的所有分支。
 
-实施目标是复现可观察的显示行为和输入输出契约。dwccoffee 不复制水果互联的 DEX、原生库、布局、图片或授权机制；CarPlay 连接与鉴权沿用本项目现有接口。
+实施目标是复现可观察的显示行为和输入输出契约。dwcoffee 不复制水果互联的 DEX、原生库、布局、图片或授权机制；CarPlay 连接与鉴权沿用本项目现有接口。
 
 ## 链路 A：仪表地图
 
@@ -23,7 +23,7 @@ DisplayManager 枚举 → 仪表目标选择 → 副屏尺寸/区域配置
 | 视频来源 | `CarplayNative.onVideoDataCallback` 将 110 分给主画面、111 分给副屏；副屏经 H.264/HEVC MediaCodec 直接输出 Surface。它不是主屏截图镜像。 | `ev_a62166e8ca2d26993a08d0c654826cdb743617747313c5890d2c42b23eb6e1cf`、`ev_064076bb45a9642371c9c9b163fd67808a7df55a13601b38e18e18ff110c6526` |
 | 退出清理 | 服务销毁时撤销 DisplayListener 并 dismiss 仪表 Presentation。 | `ev_b88ad58e99eb93a962f26b4915928628eeac5bcc0400f2bc8b99cdfce199ac83` |
 
-拿铁实车历史记录显示 Display 3 为 1920×384，水果互联能在其上建立全屏层；这只证明 Android 合成层可覆盖原厂窗口，不能证明原厂安全告警优先级或长期驾驶安全。dwccoffee 已有第二流 111 和 `ClusterMapPresentation`，需解除其 DiLink 尺寸、显示名与原厂投屏模式假设。
+拿铁实车历史记录显示 Display 3 为 1920×384，水果互联能在其上建立全屏层；这只证明 Android 合成层可覆盖原厂窗口，不能证明原厂安全告警优先级或长期驾驶安全。dwcoffee 已有第二流 111 和 `ClusterMapPresentation`，需解除其 DiLink 尺寸、显示名与原厂投屏模式假设。
 
 ## 链路 B：HUD 信息
 
@@ -43,7 +43,7 @@ iAP2/原生回调：转向、路线、车道、媒体、通话
 
 `f3.g` 还向 `AUTONAVI_STANDARD_BROADCAST_SEND` 发送特定状态广播；这是一条厂商/地图应用桥接路径，与独立 HUD Presentation 不同。通用输出不使用该广播，证据为 `ev_6211fa5a698002d956eeff0ca0b3d659b8795f29897e4e65f51069021edd33ee`。
 
-## 对 dwccoffee 的实现约束
+## 对 dwcoffee 的实现约束
 
 1. 第二流和 HUD 状态分开建模。仪表输出持有视频 Surface；HUD 输出消费导航、媒体、通话状态，不依赖仪表 Surface 是否存在。
 2. 通用 Display 发现依据运行时能力、尺寸、唯一性和显式用户选择；拿铁 3/4 是候选配置，不是通用固定 ID。歧义时不占用原厂屏。

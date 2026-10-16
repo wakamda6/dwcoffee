@@ -1,6 +1,6 @@
-# Build dwccoffee
+# Build dwcoffee
 
-Use this procedure to build the dwccoffee app for an Android head unit. This procedure is adapted from DiPlay and still uses the upstream runtime-asset environment variable `DIPLAY_AUTH_ASSETS_DIR`.
+Use this procedure to build the dwcoffee app for an Android head unit. This procedure is adapted from DiPlay and still uses the upstream runtime-asset environment variable `DIPLAY_AUTH_ASSETS_DIR`.
 Run the commands from the repository root, where `gradlew` and `settings.gradle.kts` are located.
 
 ## Select the application
@@ -10,7 +10,7 @@ Select `mobile` to build the main DiPlay app.
 
 | Gradle module | Purpose | Debug APK |
 | --- | --- | --- |
-| `:mobile` | Main dwccoffee app for Android head units | `mobile/build/outputs/apk/debug/mobile-debug.apk` |
+| `:mobile` | Main dwcoffee app for Android head units | `mobile/build/outputs/apk/debug/mobile-debug.apk` |
 | `:maphost` | Sample application that displays a map from DiPlay | `samples/maphost/build/outputs/apk/debug/maphost-debug.apk` |
 | `:home` | Optional DiPlay Home launcher | `samples/home/build/outputs/apk/debug/home-debug.apk` |
 | `:automotive` | Separate Android Automotive application inherited from xcertplay | `automotive/build/outputs/apk/debug/automotive-debug.apk` |
@@ -172,6 +172,12 @@ The APK contains the runtime identity you supplied.
 Recipients can extract that identity from the APK.
 The APK excludes the Android signing key.
 See [the project notices](THIRD_PARTY_NOTICES.md) for the experimental identity used in public releases.
+
+For an app update, publish a GitHub Release in `wakamda6/dwcoffee` with a tag such as
+`v0.2.20.2`. Attach the signed dwcoffee APK and `SHA256SUMS.txt`; the latter must contain
+the APK's SHA-256 digest followed by two spaces and its exact uploaded filename.
+The app compares all four version components and checks the downloaded APK against that digest.
+Do not attach sample-app APKs to the same Release: the updater selects an APK asset by extension.
 
 The public source archive matches the release tag.
 It excludes runtime identities, signing keys, local configuration, and build output.

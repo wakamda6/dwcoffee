@@ -1,13 +1,13 @@
-# dwccoffee
+# dwcoffee
 
-dwccoffee（DiPlay With Coffee）基于 [DiPlay](https://github.com/shihabal3amri/DiPlay)，保留原有 CarPlay 核心功能，补充 GWM WEY 拿铁车型支持和说明。拿铁实车已验证仪表地图及 HUD 导航内容可见；媒体、通话、车道信息与跨固件行为仍需逐项验证。
+dwcoffee（DiPlay With Coffee）基于 [DiPlay](https://github.com/shihabal3amri/DiPlay)，保留原有 CarPlay 核心功能，补充 GWM WEY 拿铁车型支持和说明。拿铁实车已验证仪表地图及 HUD 导航内容可见；媒体、通话、车道信息与跨固件行为仍需逐项验证。
 
 ## 当前基线
 
 - 上游：DiPlay，起点提交 `969f871433b76f6c59f3c93619f7cb5872fdd15d`。
 - 主应用模块：`:mobile`；库模块：`:common`、`:shared`。
 - 应用 ID：`com.wakamda.dwcoffee`；调试版：`com.wakamda.dwcoffee.hudtest`。两者与原 DiPlay 可并存。
-- 本地开发分支：`develop`；`upstream` 指向 DiPlay 原仓库。
+- 开发分支：`develop`；`origin` 指向 [dwcoffee](https://github.com/wakamda6/dwcoffee)，`upstream` 指向 DiPlay 原仓库。
 - 车型补充、品牌文案和图标位于独立开发分支；CarPlay 协议核心沿用上游实现。
 
 ## 从哪里开始

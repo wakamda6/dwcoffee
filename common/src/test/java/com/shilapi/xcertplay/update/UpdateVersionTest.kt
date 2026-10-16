@@ -27,6 +27,15 @@ class UpdateVersionTest {
     }
 
     @Test
+    fun coffeeRevisionIsComparedAfterUpstreamVersion() {
+        assertTrue(UpdateVersion.isNewer("v0.2.20.2", "0.2.20.1"))
+        assertFalse(UpdateVersion.isNewer("v0.2.20.1", "0.2.20.1"))
+        assertTrue(UpdateVersion.isNewer("v0.2.21.0", "0.2.20.9"))
+        assertTrue(UpdateVersion.isNewer("v0.2.20.1", "0.2.20"))
+        assertFalse(UpdateVersion.isNewer("v0.2.20", "0.2.20.1"))
+    }
+
+    @Test
     fun preReleaseSuffixStillComparesByNumbers() {
         assertTrue(UpdateVersion.isNewer("0.2.15-beta.1", "0.2.14"))
         assertFalse(UpdateVersion.isNewer("0.2.14-rc.1", "0.2.14"))
