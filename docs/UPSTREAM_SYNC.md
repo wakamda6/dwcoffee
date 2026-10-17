@@ -13,6 +13,6 @@ git switch -c sync/diplay-manual
 git merge --no-ff <确认过的上游提交或标签>
 ```
 
-解决冲突后运行 [Android CI 命令](../.github/workflows/android.yml)，确认应用 ID 仍为 `com.wakamda.dwcoffee`、Coffee 车型功能仍可见，并复核 BYD 与 GWM WEY 的功能和车型文案，再将同步分支合并到 `develop`。
+解决冲突后运行 [本地构建与检查](BUILD.md)，确认应用 ID 仍为 `com.wakamda.dwcoffee`、Coffee 车型功能仍可见，并复核 BYD 与 GWM WEY 的功能和车型文案，再将同步分支合并到 `develop`。
 
 源代码同步与应用内更新是两件事：应用更新检查指向 `wakamda6/dwcoffee` 的 GitHub Releases，不会把上游 DiPlay APK 当作本项目更新。每次发布须上传签名的 dwcoffee APK 和对应的 `SHA256SUMS.txt`；新版本的前三段跟随上游，第四段为本项目修订号。
