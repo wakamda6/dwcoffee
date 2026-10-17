@@ -14,6 +14,6 @@
     <string name="hud_editor_turn_sample">1.2 km 後左轉</string>
     <string name="hud_editor_route_sample">剩餘 12.1 km · 18:04</string>
     <string name="hud_editor_call_sample">來電 10086</string>
-    <string name="hud_editor_media_sample">歌曲標題</string>
-    <string name="hud_editor_artist_sample">歌手名稱</string>
+    <string name="hud_editor_media_sample">歌曲歌詞</string>
+    <string name="hud_editor_artist_sample">歌曲名稱</string>
 </resources>
