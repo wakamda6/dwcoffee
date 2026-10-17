@@ -150,7 +150,17 @@ Different signing keys cannot update the same installed application.
 Keep the runtime assets under `.private/runtime-assets/offline-mfi/` as described above.
 Release builds include these files automatically and fail if either is missing or empty.
 Set `DIPLAY_AUTH_ASSETS_DIR` only if the assets live elsewhere.
-Set the signing environment variables locally:
+For local builds, create the ignored file `.private/release-signing.properties`:
+
+```properties
+storePassword=YOUR_KEYSTORE_PASSWORD
+keyAlias=YOUR_RELEASE_KEY_ALIAS
+keyPassword=YOUR_KEY_PASSWORD
+```
+
+The keystore defaults to `.private/release-signing/dwcoffee-release.jks`. Set `storeFile` in the properties file if it lives elsewhere; use forward slashes in Windows paths. This checkout also keeps local signing details in the ignored `.private/SIGNING-LOCAL.md`. Once the properties file is populated, the release command below needs no extra environment setup.
+
+The existing signing environment variables below override individual file values when set:
 
 | Variable | Value |
 | --- | --- |

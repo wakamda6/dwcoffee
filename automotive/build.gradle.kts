@@ -1,7 +1,17 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
 }
+
+val releaseSigning = Properties().apply {
+    rootProject.file(".private/release-signing.properties").takeIf { it.isFile }
+        ?.inputStream()?.use { load(it) }
+}
+fun releaseSigningValue(environmentName: String, propertyName: String): String =
+    providers.environmentVariable(environmentName).orNull
+        ?: releaseSigning.getProperty(propertyName, "")
 
 android {
     namespace = "com.shilapi.xcertplay"
@@ -20,13 +30,13 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file(
-                providers.environmentVariable("ANDROID_KEYSTORE_PATH")
-                    .getOrElse("missing-release-keystore.jks"),
+            storeFile = rootProject.file(
+                releaseSigningValue("ANDROID_KEYSTORE_PATH", "storeFile")
+                    .ifEmpty { ".private/release-signing/dwcoffee-release.jks" },
             )
-            storePassword = providers.environmentVariable("ANDROID_KEYSTORE_PASSWORD").getOrElse("")
-            keyAlias = providers.environmentVariable("ANDROID_KEY_ALIAS").getOrElse("")
-            keyPassword = providers.environmentVariable("ANDROID_KEY_PASSWORD").getOrElse("")
+            storePassword = releaseSigningValue("ANDROID_KEYSTORE_PASSWORD", "storePassword")
+            keyAlias = releaseSigningValue("ANDROID_KEY_ALIAS", "keyAlias")
+            keyPassword = releaseSigningValue("ANDROID_KEY_PASSWORD", "keyPassword")
         }
     }
 
