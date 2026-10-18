@@ -28,10 +28,10 @@ android {
 
     defaultConfig {
         applicationId = "com.wakamda.dwcoffee"
-        minSdk = 25
+        minSdk = 24
         targetSdk = 37
-        versionCode = 20201
-        versionName = "0.2.20.1"
+        versionCode = 20211
+        versionName = "0.2.21.1"
 
     }
 

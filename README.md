@@ -4,7 +4,7 @@ dwcoffee（DiPlay With Coffee）基于 [DiPlay](https://github.com/shihabal3amri
 
 ## 当前基线
 
-- 上游：DiPlay，起点提交 `969f871433b76f6c59f3c93619f7cb5872fdd15d`。
+- 上游：DiPlay 0.2.21（`v0.2.21`）；最初分叉于 0.2.20。
 - 主应用模块：`:mobile`；库模块：`:common`、`:shared`。
 - 应用 ID：`com.wakamda.dwcoffee`；调试版：`com.wakamda.dwcoffee.hudtest`。两者与原 DiPlay 可并存。
 - 开发分支：`develop`；`origin` 指向 [dwcoffee](https://github.com/wakamda6/dwcoffee)，`upstream` 指向 DiPlay 原仓库。
@@ -12,7 +12,7 @@ dwcoffee（DiPlay With Coffee）基于 [DiPlay](https://github.com/shihabal3amri
 
 ## 从哪里开始
 
-完整目标、证据、架构、阶段任务和验收标准见 [初始开发方案](docs/INITIAL_DEVELOPMENT_PLAN.md)。上游原版说明保存在 [DiPlay README](docs/DIPLAY_UPSTREAM_README.md)。当前固定使用 DiPlay 0.2.20 作为上游基线；将来需要更新时按 [手动上游同步流程](docs/UPSTREAM_SYNC.md) 操作。
+完整目标、证据、架构、阶段任务和验收标准见 [初始开发方案](docs/INITIAL_DEVELOPMENT_PLAN.md)。上游原版说明保存在 [DiPlay README](docs/DIPLAY_UPSTREAM_README.md)。本次上游变化见 [0.2.21 更新说明](docs/RELEASE-NOTES-0.2.21.md)；以后更新按 [手动上游同步流程](docs/UPSTREAM_SYNC.md) 操作。
 
 构建主 APK：`gradlew.bat :mobile:assembleDebug`。源码构建默认不含 CarPlay 运行身份材料，因而 APK 能安装并不代表能与 iPhone 完成 CarPlay 连接。构建环境和本地车测方式见 [构建说明](docs/BUILD.md)。
 

@@ -42,6 +42,12 @@ On Windows, `UsbPermissionSetupTest` runs a POSIX shell fixture. If Git for Wind
 $env:DIPLAY_TEST_SHELL = 'D:\Program Files\Git\bin\sh.exe'
 ```
 
+If Robolectric tests on JDK 25 fail with `FileDescriptorInterceptor` and `IllegalAccessException`, set this for the Gradle test process:
+
+```powershell
+$env:JAVA_TOOL_OPTIONS = '--add-exports=java.base/jdk.internal.access=ALL-UNNAMED'
+```
+
 1. Open the repository root in Android Studio.
 2. Install the Android SDK packages with **Tools → SDK Manager**.
 3. Set **Gradle JDK** to JDK 25 in the Android Studio Gradle settings.
@@ -185,7 +191,7 @@ The APK excludes the Android signing key.
 See [the project notices](THIRD_PARTY_NOTICES.md) for the experimental identity used in public releases.
 
 For an app update, publish a GitHub Release in `wakamda6/dwcoffee` with a tag such as
-`v0.2.20.2`. Attach the signed dwcoffee APK and `SHA256SUMS.txt`; the latter must contain
+`v0.2.21.1`. Attach the signed dwcoffee APK and `SHA256SUMS.txt`; the latter must contain
 the APK's SHA-256 digest followed by two spaces and its exact uploaded filename.
 The app compares all four version components and checks the downloaded APK against that digest.
 Do not attach sample-app APKs to the same Release: the updater selects an APK asset by extension.
