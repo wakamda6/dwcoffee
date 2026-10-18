@@ -120,7 +120,7 @@ DIPLAY_AUTH_ASSETS_DIR=/absolute/path/to/runtime-assets ./gradlew :mobile:assemb
 .\gradlew.bat :shared:testDebugUnitTest :common:testDebugUnitTest :mobile:lintRelease :mobile:assembleRelease
 ```
 
-Linux／macOS 使用 `./gradlew`。輸出為 `mobile/build/outputs/apk/release/mobile-release.apk`，包含你提供的配件身分，接收者可從 APK 擷取。APK 不含 Android 簽章私密金鑰。公開版本採用的實驗性身分及授權見[第三方聲明](THIRD_PARTY_NOTICES.md)。
+Linux／macOS 使用 `./gradlew`。輸出為 `mobile/build/outputs/apk/release/dwcoffee_v<versionName>.apk`（目前為 `dwcoffee_v0.2.21.1.apk`），包含你提供的配件身分，接收者可從 APK 擷取。APK 不含 Android 簽章私密金鑰。公開版本採用的實驗性身分及授權見[第三方聲明](THIRD_PARTY_NOTICES.md)。
 
 發布更新時，在 `wakamda6/dwcoffee` 建立例如 `v0.2.20.2` 的 GitHub Release，附上已簽章的 dwcoffee APK 與 `SHA256SUMS.txt`。校驗檔每行為 APK 的 SHA-256、兩個空格及上傳時的完整檔名；應用會比較四段版本並核對下載檔案。不要在同一個 Release 加入範例應用 APK，更新器依副檔名選擇 APK。
 

@@ -184,7 +184,7 @@ Run the release checks and build:
 ./gradlew :shared:testDebugUnitTest :common:testDebugUnitTest :mobile:lintRelease :mobile:assembleRelease
 ```
 
-The output is `mobile/build/outputs/apk/release/mobile-release.apk`.
+The output is `mobile/build/outputs/apk/release/dwcoffee_v<versionName>.apk` (currently `dwcoffee_v0.2.21.1.apk`). The name follows `versionName` in `mobile/build.gradle.kts` for every release build.
 The APK contains the runtime identity you supplied.
 Recipients can extract that identity from the APK.
 The APK excludes the Android signing key.
