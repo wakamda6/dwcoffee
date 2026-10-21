@@ -858,24 +858,6 @@ object AirPlayPersistence {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(KEY_CLUSTER_MAP, enabled).apply()
     }
 
-    fun loadGwmHudEnabled(context: Context): Boolean =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean("gwm_hud_enabled", false)
-
-    fun saveGwmHudEnabled(context: Context, enabled: Boolean) {
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-            .putBoolean("gwm_hud_enabled", enabled).apply()
-        GwmHudOutput.refresh(context)
-    }
-
-    fun loadGwmHudOverlay(context: Context): Boolean =
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean("gwm_hud_overlay", false)
-
-    fun saveGwmHudOverlay(context: Context, overlay: Boolean) {
-        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-            .putBoolean("gwm_hud_overlay", overlay).apply()
-        GwmHudOutput.refresh(context)
-    }
-
     /** The dashboard map as a card on the centre screen while DiPlay is in the background. */
     fun loadCenterMapOverlay(context: Context): Boolean =
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(KEY_CENTER_MAP_OVERLAY, false)

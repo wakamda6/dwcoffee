@@ -7,7 +7,7 @@ import android.os.Looper
 import android.util.Log
 import com.shilapi.xcertplay.hud.CarPlayHudFeed
 
-/** Process-owned HUD window. It remains on the secondary display while activities change. */
+/** Process-owned transparent HUD window for an active CarPlay session with content. */
 internal object GwmHudOutput {
     private const val TAG = "GwmHudOutput"
     private val main = Handler(Looper.getMainLooper())
@@ -42,30 +42,30 @@ internal object GwmHudOutput {
 
     private fun refreshOnMain() {
         val context = app ?: return
-        val display = if (AirPlayPersistence.loadGwmHudEnabled(context))
+        val hasContent = feed.guidance != null || feed.media != null ||
+            feed.call != null || feed.lanes.isNotEmpty()
+        val display = if (CarPlayBackgroundSession.active && hasContent)
             GwmLatteDisplays.hud(context) else null
         if (display == null) {
             presentation?.dismiss()
             presentation = null
             return
         }
-        val overlay = AirPlayPersistence.loadGwmHudOverlay(context)
         val current = presentation
-        if (current != null && current.display.displayId == display.displayId &&
-            current.overlayMode == overlay && current.isShowing) {
+        if (current != null && current.display.displayId == display.displayId && current.isShowing) {
             current.setGuidance(feed.guidance)
             current.setFeed(feed)
             return
         }
         current?.dismiss()
-        val next = GwmLatteHudPresentation(context, display, overlay)
+        val next = GwmLatteHudPresentation(context, display)
         next.setGuidance(feed.guidance)
         next.setFeed(feed)
         next.setOnDismissListener { if (presentation === next) presentation = null }
         try {
             next.show()
             presentation = next
-            Log.i(TAG, "HUD shown display=${display.displayId} overlay=$overlay " +
+            Log.i(TAG, "HUD shown display=${display.displayId} " +
                 "navigation=${feed.guidance != null} media=${feed.media != null} " +
                 "lanes=${feed.lanes.isNotEmpty()} call=${feed.call != null}")
         } catch (error: RuntimeException) {

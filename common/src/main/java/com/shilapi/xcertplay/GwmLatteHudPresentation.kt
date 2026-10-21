@@ -20,8 +20,7 @@ import java.util.Date
 import java.util.Locale
 
 /** Latte HUD uses a native Presentation and CarPlay control data, independent of BYD HUD services. */
-internal class GwmLatteHudPresentation(context: Context, display: Display,
-                                       val overlayMode: Boolean) : Presentation(context, display) {
+internal class GwmLatteHudPresentation(context: Context, display: Display) : Presentation(context, display) {
     private var guidance: ClusterTurnGuidance? = null
     private var feed = CarPlayHudFeed.State()
     private var canvasView: HudView? = null
@@ -31,14 +30,14 @@ internal class GwmLatteHudPresentation(context: Context, display: Display,
         super.onCreate(savedInstanceState)
         window?.apply {
             setFormat(PixelFormat.TRANSLUCENT)
-            setBackgroundDrawable(ColorDrawable(if (overlayMode) Color.TRANSPARENT else Color.BLACK))
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE or
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
             setDimAmount(0f)
         }
         val view = HudView(context)
-        view.setBackgroundColor(if (overlayMode) Color.TRANSPARENT else Color.BLACK)
+        view.setBackgroundColor(Color.TRANSPARENT)
         canvasView = view
         setContentView(view)
     }
@@ -56,16 +55,9 @@ internal class GwmLatteHudPresentation(context: Context, display: Display,
         private val clock = SimpleDateFormat("HH:mm", Locale.getDefault())
 
         override fun onDraw(canvas: Canvas) {
-            if (!overlayMode) canvas.drawColor(Color.BLACK)
             val turn = guidance
             val media = feed.media
             val call = feed.call
-            if (turn == null && media == null && call == null && feed.lanes.isEmpty()) {
-                paint.color = Color.WHITE
-                paint.alpha = 255
-                paint.textSize = 22f * height / 480f
-                canvas.drawText("HUD 已开启 · 等待 CarPlay 信息", width * .05f, height * .12f, paint)
-            }
             if (turn != null) {
                 line(canvas, GwmHudLayout.Part.ICON, arrow(turn.icon))
                 line(canvas, GwmHudLayout.Part.ROAD, turn.road)

@@ -1,8 +1,4 @@
 <resources>
-    <string name="settings_gwm_hud">Proyección HUD del GWM WEY Latte (experimental)</string>
-    <string name="settings_gwm_hud_description">Muestra navegación, carriles, música y llamadas de CarPlay en el HUD independientemente del cuadro de instrumentos.</string>
-    <string name="settings_gwm_hud_overlay">Superponer al HUD original (experimental)</string>
-    <string name="settings_gwm_hud_overlay_description">Conserva el HUD original y añade información de CarPlay en una capa transparente.</string>
     <string name="settings_gwm_hud_layout">Configurar contenido y diseño del HUD · Abrir</string>
     <string name="settings_gwm_hud_layout_title">GWM WEY Latte HUD settings</string>
 </resources>

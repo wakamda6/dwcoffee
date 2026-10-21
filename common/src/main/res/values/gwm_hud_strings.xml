@@ -1,8 +1,4 @@
 <resources>
-    <string name="settings_gwm_hud">GWM WEY Latte HUD projection (experimental)</string>
-    <string name="settings_gwm_hud_description">Show CarPlay navigation, lanes, music and calls on the HUD independently of the instrument display.</string>
-    <string name="settings_gwm_hud_overlay">Overlay on original HUD (experimental)</string>
-    <string name="settings_gwm_hud_overlay_description">Keep the original HUD visible behind the added CarPlay information.</string>
     <string name="settings_gwm_hud_layout">Configure HUD content and layout · Open</string>
     <string name="settings_gwm_hud_layout_title">GWM WEY Latte HUD settings</string>
 </resources>

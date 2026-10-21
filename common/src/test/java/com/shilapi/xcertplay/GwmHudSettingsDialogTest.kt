@@ -57,9 +57,9 @@ class GwmHudSettingsDialogTest {
 
     @Test fun editorShowsThreeProfilesAtCompactAndFullSizes() {
         for ((locale, widthDp, fontScale) in listOf(
-            Triple("zh-rCN", 600, 1.3f),
+            Triple("zh-rCN", 320, 1.3f),
             Triple("zh-rCN", 1280, 1.5f),
-            Triple("ar", 600, 1.3f),
+            Triple("ar", 320, 1.3f),
         )) {
             RuntimeEnvironment.setQualifiers("${locale}-w${widthDp}dp-h960dp-mdpi")
             val app = RuntimeEnvironment.getApplication()
@@ -77,8 +77,12 @@ class GwmHudSettingsDialogTest {
                 View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY))
             decor.layout(0, 0, decor.measuredWidth, decor.measuredHeight)
             val spinner = descendants(decor).filterIsInstance<Spinner>().single()
+            val preview = descendants(decor).first { it.javaClass.simpleName == "Preview" }
             assertEquals(3, spinner.adapter.count)
             assertTrue(decor.width > 0 && decor.height > 0)
+            assertTrue(preview.width > 0)
+            assertEquals(480f / 800f, preview.height.toFloat() / preview.width, .01f)
+            assertTrue(preview.width <= (800 * app.resources.displayMetrics.density).toInt())
             descendants(decor).forEach { it.scrollIndicators = 0 }
             val bitmap = Bitmap.createBitmap(decor.width, decor.height, Bitmap.Config.ARGB_8888)
             decor.draw(Canvas(bitmap))

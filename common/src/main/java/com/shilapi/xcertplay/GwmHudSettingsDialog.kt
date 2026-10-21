@@ -20,8 +20,11 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.shilapi.xcertplay.host.R
 
-/** The editor canvas is a sample layout, not the physical HUD's covered area. */
+/** The editor uses the HUD's 800 by 480 coordinate ratio; its visible size fits the screen. */
 internal object GwmHudSettingsDialog {
+    private const val HUD_CANVAS_WIDTH_DP = 800
+    private const val HUD_CANVAS_HEIGHT_DP = 480
+
     fun show(context: Context) {
         val density = context.resources.displayMetrics.density
         fun dp(value: Int) = (value * density + .5f).toInt()
@@ -65,7 +68,7 @@ internal object GwmHudSettingsDialog {
             syncControls()
         }
         preview.selected = selected
-        root.addView(preview, LinearLayout.LayoutParams(-1, dp(220)))
+        root.addView(preview, LinearLayout.LayoutParams(-1, -2))
         root.addView(selectedLabel)
         val sizeRow = LinearLayout(context).apply { gravity = Gravity.CENTER_VERTICAL }
         fun sizeButton(label: String, factor: Float) = Button(context).apply {
@@ -153,7 +156,11 @@ internal object GwmHudSettingsDialog {
             .setNegativeButton(android.R.string.cancel, null)
             .setPositiveButton(R.string.hud_editor_save) { _, _ ->
                 GwmHudLayout.saveProfiles(context, drafts, animations, profile)
-            }.show()
+            }.show().also { dialog ->
+                val screenWidth = context.resources.displayMetrics.widthPixels
+                dialog.window?.setLayout(minOf(screenWidth - dp(32), dp(HUD_CANVAS_WIDTH_DP + 32)),
+                    android.view.ViewGroup.LayoutParams.WRAP_CONTENT)
+            }
     }
 
     private class Preview(
@@ -180,10 +187,19 @@ internal object GwmHudSettingsDialog {
         private var dragOffsetY = 0f
         private var dragging = false
 
+        override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+            val maxWidth = (HUD_CANVAS_WIDTH_DP * resources.displayMetrics.density + .5f).toInt()
+            val availableWidth = View.MeasureSpec.getSize(widthMeasureSpec)
+            val canvasWidth = if (View.MeasureSpec.getMode(widthMeasureSpec) == View.MeasureSpec.UNSPECIFIED)
+                maxWidth else availableWidth.coerceAtMost(maxWidth)
+            setMeasuredDimension(canvasWidth,
+                (canvasWidth * HUD_CANVAS_HEIGHT_DP / HUD_CANVAS_WIDTH_DP.toFloat() + .5f).toInt())
+        }
+
         override fun onDraw(canvas: Canvas) {
             canvas.drawColor(Color.rgb(18, 23, 29))
-            val sx = width / 800f
-            val sy = height / 480f
+            val sx = width / HUD_CANVAS_WIDTH_DP.toFloat()
+            val sy = height / HUD_CANVAS_HEIGHT_DP.toFloat()
             bounds.clear()
             GwmHudLayout.Part.entries.forEach { part ->
                 val style = requireNotNull(styles()[part])

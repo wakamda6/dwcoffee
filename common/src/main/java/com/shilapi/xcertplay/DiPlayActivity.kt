@@ -2184,15 +2184,6 @@ class DiPlayActivity : ComponentActivity(), AppAppearanceOwner {
                 render()
             }
             if (GwmLatteDisplays.hud(this) != null) {
-                toggle(card, getString(R.string.settings_gwm_hud), getString(R.string.settings_gwm_hud_description),
-                    AirPlayPersistence.loadGwmHudEnabled(this)) {
-                    AirPlayPersistence.saveGwmHudEnabled(this, it)
-                }
-                toggle(card, getString(R.string.settings_gwm_hud_overlay),
-                    getString(R.string.settings_gwm_hud_overlay_description),
-                    AirPlayPersistence.loadGwmHudOverlay(this)) {
-                    AirPlayPersistence.saveGwmHudOverlay(this, it)
-                }
                 card.addView(button(getString(R.string.settings_gwm_hud_layout), false) {
                     GwmHudSettingsDialog.show(this)
                 }, matchButton(10, 56))

@@ -5281,6 +5281,7 @@ class CarPlayHostActivity : ComponentActivity() {
                         installIphoneCornerMask(session, pending.second.first, pending.second.second)
                     } else clearIphoneCornerMask()
                     CarPlayBackgroundSession.active = true
+                    GwmHudOutput.refresh(this@CarPlayHostActivity)
                     showConnectionHelp(null)
                     callPopupSessionReady = true
                     updateCallPopupGuard()
@@ -5325,6 +5326,7 @@ class CarPlayHostActivity : ComponentActivity() {
                     activeAirPlaySession = null
                     clearIphoneCornerMask()
                     CarPlayBackgroundSession.active = false
+                    GwmHudOutput.refresh(this@CarPlayHostActivity)
                     callPopupSessionReady = false
                     updateCallPopupGuard()
                     if (menuOpen) {
@@ -5342,6 +5344,8 @@ class CarPlayHostActivity : ComponentActivity() {
             override fun onTransportError(message: String) {
                 runOnUiThread {
                     if (controllerGeneration != restartGeneration || startupRetryStopped) return@runOnUiThread
+                    CarPlayBackgroundSession.active = false
+                    GwmHudOutput.refresh(this@CarPlayHostActivity)
                     callPopupSessionReady = false
                     updateCallPopupGuard()
                     startupRetryBudget.disconnected()
@@ -6019,6 +6023,7 @@ class CarPlayHostActivity : ComponentActivity() {
         val oldSink = sink
         CarPlayMediaKeys.detach(oldController)
         CarPlayBackgroundSession.clear(oldController, keepOwner = true)
+        GwmHudOutput.refresh(this)
         controller = null
         oldSink?.let(retiringSinks::add)
         sink = null
@@ -6228,6 +6233,7 @@ class CarPlayHostActivity : ComponentActivity() {
         val oldSink = sink
         CarPlayMediaKeys.detach(oldController)
         CarPlayBackgroundSession.clear(oldController)
+        GwmHudOutput.refresh(this)
         controller = null
         oldSink?.let(retiringSinks::add)
         sink = null
